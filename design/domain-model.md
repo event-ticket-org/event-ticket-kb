@@ -35,7 +35,7 @@ erDiagram
     ORDER ||--o{ TICKET : produces
 
     TICKET }o--o| EVENT_SEAT : "seated at"
-    TICKET ||--o{ TICKET_CODE : "presented as"
+    TICKET ||--|| TICKET_CODE : "presented as"
     TICKET ||--o{ SCAN : "attempted by"
     USER ||--o{ SCAN : performs
 ```
@@ -113,8 +113,9 @@ These must hold at all times. Where the database can enforce one, it should.
 13. One Ticket admits one person once. A Ticket is redeemed by exactly one Scan.
 14. Every Scan is recorded, including refused ones, with the scanning User, the device and
     the instant.
-15. Only the current Ticket Code for a Ticket is accepted. Reissuing reveals a new code and
-    invalidates the previous one.
+15. A Ticket has exactly one Ticket Code, and only that code is accepted. There is no way to
+    replace it in v1: a code that leaks is dealt with by voiding the Ticket and refunding it,
+    which is a blunter instrument than reissuing and the only one v1 has.
 16. A Ticket Code is meaningless on its own: it identifies a Ticket and carries no other
     information. Seat, event and validity are resolved server-side at scan time.
 17. Authorisation to scan is checked against live Membership at scan time, not against

@@ -654,6 +654,79 @@ paths:
                 type: array
                 items: { $ref: '#/components/schemas/Ticket' }
 
+  /orders/{orderId}/refunds:
+    parameters:
+      - $ref: '#/components/parameters/OrderId'
+    get:
+      tags: [Refunds]
+      summary: The refund attempts against an Order
+      responses:
+        '4XX': { $ref: '#/components/responses/Error4xx' }
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Refund' }
+    post:
+      tags: [Refunds]
+      summary: Refund a paid Order
+      description: |
+        Initiated by the Organization, never by the buyer. Like a payment, a refund is
+        confirmed by the provider and is never an instant boolean - it returns
+        `REFUND_PENDING` and settles later (ADR-0002).
+
+        Refused if any Ticket in the Order has been redeemed: somebody has already been let
+        in, and no refund can take that back.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RefundRequest' }
+      responses:
+        '4XX': { $ref: '#/components/responses/Error4xx' }
+        '202':
+          description: Refund started
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Refund' }
+        '409':
+          description: Order is not paid, already refunded, or has a redeemed Ticket
+          content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
+
+  /events/{eventId}/cancel:
+    parameters:
+      - $ref: '#/components/parameters/EventId'
+    post:
+      tags: [Refunds]
+      summary: Cancel an Event, voiding every Ticket and refunding every paid Order
+      description: |
+        A bulk operation that will partially fail, so it reports per-Order status rather than
+        succeeding or failing as a whole. Poll the same path with GET to watch it settle.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RefundRequest' }
+      responses:
+        '4XX': { $ref: '#/components/responses/Error4xx' }
+        '202':
+          description: Cancellation started
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/EventCancellation' }
+    get:
+      tags: [Refunds]
+      summary: How a cancellation is going, per Order
+      responses:
+        '4XX': { $ref: '#/components/responses/Error4xx' }
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/EventCancellation' }
+
   /webhooks/payments/{provider}:
     parameters:
       - name: provider
@@ -1054,7 +1127,10 @@ components:
 
     OrderStatus:
       type: string
-      enum: [AWAITING_PAYMENT, PAID, EXPIRED, CANCELLED]
+      description: |
+        `CANCELLED` is a buyer abandoning an unpaid Order; `REFUNDED` is money given back.
+        Collapsing the two would lose the distinction that matters most in a ledger.
+      enum: [AWAITING_PAYMENT, PAID, EXPIRED, CANCELLED, REFUNDED]
 
     Order:
       type: object
@@ -1097,6 +1173,65 @@ components:
         status: { type: string, enum: [AWAITING_PAYMENT, PAID, FAILED, EXPIRED] }
         nextAction: { $ref: '#/components/schemas/NextAction' }
         expiresAt: { type: string, format: date-time }
+
+    RefundStatus:
+      type: string
+      description: |
+        Never a boolean. A refund is confirmed by the provider, like a payment, and the
+        pending state is a real state somebody has to be able to see (ADR-0002).
+      enum: [REFUND_PENDING, REFUNDED, REFUND_FAILED]
+
+    RefundRequest:
+      type: object
+      required: [reason]
+      properties:
+        reason:
+          type: string
+          maxLength: 500
+          description: |
+            Shown to the buyer in the email they receive. Required, because "your order was
+            refunded" with no reason generates the support request it was meant to avoid.
+
+    Refund:
+      type: object
+      required: [id, orderId, amount, status]
+      properties:
+        id: { type: string, format: uuid }
+        orderId: { type: string, format: uuid }
+        amount: { $ref: '#/components/schemas/Money' }
+        status: { $ref: '#/components/schemas/RefundStatus' }
+        reason: { type: string }
+        failureReason:
+          type: [string, 'null']
+          description: Present when the status is REFUND_FAILED, so somebody can act on it.
+        createdAt: { type: string, format: date-time }
+        settledAt: { type: [string, 'null'], format: date-time }
+
+    OrderRefundState:
+      type: object
+      required: [orderId, status]
+      properties:
+        orderId: { type: string, format: uuid }
+        status: { $ref: '#/components/schemas/RefundStatus' }
+        failureReason: { type: [string, 'null'] }
+
+    EventCancellation:
+      type: object
+      description: |
+        The progress of one cancellation. It exists because a bulk refund partially fails and
+        somebody has to see which Orders did - a single success or failure for the whole
+        operation would hide exactly the information needed to finish it by hand.
+      required: [eventId, startedAt, orders]
+      properties:
+        eventId: { type: string, format: uuid }
+        reason: { type: string }
+        startedAt: { type: string, format: date-time }
+        pending: { type: integer }
+        refunded: { type: integer }
+        failed: { type: integer }
+        orders:
+          type: array
+          items: { $ref: '#/components/schemas/OrderRefundState' }
 
     Ticket:
       type: object

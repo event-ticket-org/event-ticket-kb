@@ -1,10 +1,14 @@
 # 008 — Refunds and cancellation
 
-**Deferred to v1.1.** Recorded here because the decisions were made and should not be
-re-litigated, and because ADR-0002's refund lifecycle depends on them.
+A refund is a second money flow with its own provider lifecycle. It was deferred so that the
+first flow could be proven before the payment surface doubled; that flow is now built and
+tested end to end, including the confirmation that arrives after a Seat Hold has lapsed and
+leaves money we should not keep.
 
-A refund is a second money flow with its own provider lifecycle. It is deferred so that the
-first flow is proven before the payment surface doubles.
+Two things brought it forward. `refund_required` already exists on an Order and nothing acts
+on it, so v1 can already reach a state it cannot leave. And KB invariant 22 - cancelling an
+Event voids every Ticket and refunds every paid Order - has no implementation at all, which
+means an Event cannot presently be cancelled: the status exists and no code path sets it.
 
 ## Acceptance criteria
 
