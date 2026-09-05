@@ -8,6 +8,22 @@ It contains no implementation detail. Schemas, APIs and technology choices live 
 
 ## Language
 
+### People
+
+**User**:
+A person with an account. One identity for everyone: buying tickets and working for an
+Organization are things a User does, not different kinds of account.
+_Avoid_: Customer, Member (means something else here), Buyer as an entity
+
+**Buyer**:
+The User who placed a given Order. A description of a role in context, not a separate record.
+_Avoid_: Purchaser, Client, Customer
+
+**Attendee**:
+The person a Ticket admits. Deliberately not recorded — Tickets are anonymous, and whoever
+presents a valid Ticket Code is admitted.
+_Avoid_: Guest, Holder, Participant
+
 ### Tenancy
 
 **Organization**:
@@ -77,6 +93,12 @@ One attempt to pay for an Order. Moves through AwaitingPayment to Paid, Failed o
 and is confirmed by the payment provider rather than by the buyer returning to the site.
 An Order may have several over its life; at most one succeeds.
 _Avoid_: Payment, Charge, Transaction, Checkout
+
+**Refund**:
+The return of money for a paid Order, initiated by the Organization and confirmed by the
+payment provider. Moves through RefundPending to Refunded or RefundFailed. A redeemed
+Ticket can never be refunded.
+_Avoid_: Reversal, Cancellation (means something else here), Chargeback
 
 ### Admission
 

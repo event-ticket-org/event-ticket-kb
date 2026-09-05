@@ -16,3 +16,11 @@ once, out of order, and sometimes after the buyer has abandoned the tab.
 An abstraction over mechanisms that differ in flow has to model the flow. A fake provider
 plus one hosted-checkout provider will not prove this design; a second provider with a
 genuinely different flow is what tests it.
+
+## Refunds
+
+Refunds follow the same rule and for the same reason: `RefundPending → Refunded |
+RefundFailed`, confirmed by the provider, never modelled as an instant boolean. Refunds are
+initiated by the Organization, not the buyer, and are forbidden once a Ticket has been
+redeemed. Cancelling an Event refunds every paid Order as a tracked bulk operation with
+per-order status, because it will partially fail and someone has to see which ones did.
