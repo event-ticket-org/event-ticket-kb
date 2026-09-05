@@ -67,6 +67,17 @@ _Avoid_: Reservation, Lock, Temporary booking, Cart
 A buyer's purchase of admission to one Event, which produces one Ticket per Seat bought.
 _Avoid_: Purchase, Transaction, Booking, Sale
 
+**Pricing Tier**:
+A named price band within an Event (for example VIP, Standard, Balcony). Every sellable
+Seat belongs to exactly one Tier, and the Tier carries the price.
+_Avoid_: Category, Class, Price level, Zone
+
+**Payment Session**:
+One attempt to pay for an Order. Moves through AwaitingPayment to Paid, Failed or Expired,
+and is confirmed by the payment provider rather than by the buyer returning to the site.
+An Order may have several over its life; at most one succeeds.
+_Avoid_: Payment, Charge, Transaction, Checkout
+
 ### Admission
 
 **Ticket**:
