@@ -1,0 +1,60 @@
+# Non-Functional Requirements
+
+The numbers this system is designed against. These are design targets, not measurements.
+
+## Scale
+
+| Property | Target |
+|---|---|
+| Seats per Event | up to 2,000 |
+| Concurrent buyers during an on-sale spike | 500 |
+| Arrival window at the door | 45 minutes |
+| Simultaneous scanning devices per Event | up to 4 |
+| Scan submitted to result displayed | under 500 ms on venue wifi |
+
+These are deliberately modest. They are large enough to make seat-hold concurrency and
+redemption atomicity genuinely hard, and small enough that no queueing system, CDN or
+read-replica is warranted.
+
+## Admission
+
+Verification is **online only**. The scanner is a browser application; there is no offline
+mode and no local ticket cache. The server is the sole authority on whether a Ticket is
+redeemed, which makes double-admission across simultaneous devices impossible by
+construction rather than by reconciliation.
+
+## Ticket Codes
+
+A Ticket Code is the only thing standing between a stranger and free entry, because
+verification is online and a valid code is sufficient.
+
+- Cryptographically random, minimum 128 bits of entropy.
+- Never derived from, nor ordered by, any database identifier.
+- Scan attempts are rate-limited per device.
+
+## Time
+
+All instants are stored in UTC. All times shown to a human are rendered in the **Venue's**
+timezone, never the browser's — a buyer in Da Nang looking at a Hanoi event must see
+Hanoi's local start time. Vietnam is ICT (UTC+7) with no daylight saving, which makes this
+easy to get wrong and never notice.
+
+## Money
+
+Single currency (VND) in v1, but Money is modelled as amount plus currency throughout.
+
+**VND has no minor unit** — ISO 4217 exponent 0, no cents. The usual "store money as
+integer minor units" advice therefore means the minor unit *is* the dong: `100000` is one
+hundred thousand dong. Payment providers expect amounts in the smallest unit and treat
+zero-decimal currencies differently. Getting this backwards is a factor-of-100 error.
+
+## Personal data
+
+The system deliberately holds one identifier per User — an email address — plus a display
+name. Tickets are anonymous; no attendee identity is recorded. Any change that widens this
+surface is a decision to be made explicitly, not a schema convenience.
+
+## Availability
+
+No high-availability requirement. A single application instance and a single Postgres
+instance are sufficient. Scheduled downtime outside event hours is acceptable.
