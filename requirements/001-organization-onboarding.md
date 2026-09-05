@@ -5,6 +5,11 @@ freely, but may not put tickets on sale until a platform administrator has appro
 is the fraud control: it costs one flag and one screen now, and prevents the platform being
 used to sell tickets to events that do not exist.
 
+That makes approval the most privileged action in the system, so criterion 13 says where the
+privilege comes from. Left unsaid, the obvious implementation is an endpoint, and an endpoint
+that can make its caller an administrator is worth more to an attacker than any other request
+here.
+
 ## Acceptance criteria
 
 1. A visitor may register with an email address and password, and must verify the email
@@ -27,3 +32,7 @@ used to sell tickets to events that do not exist.
 11. A User may hold Memberships in several Organizations and switches between them
     explicitly. The active Organization is never taken from a URL parameter.
 12. Membership changes are written to the audit log with actor and instant.
+13. A platform administrator is designated by deployment configuration and by nothing else.
+    No request grants or revokes the privilege, because the endpoint it unlocks decides who
+    may sell tickets on the platform at all. An address named in the configuration becomes
+    an administrator whether it is named before or after that account is created.
