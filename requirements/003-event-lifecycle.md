@@ -14,7 +14,8 @@ States: `Draft → Published → SalesClosed → Completed`, with `Cancelled` re
 4. A Manager may mark seats as not for sale for this Event; they appear on the map as
    unavailable.
 5. Publishing requires an `Approved` Organization, a priced tier for every sellable seat, a
-   start time in the future, and at least one sellable seat.
+   start time in the future, an admission window (criterion 16), and at least one sellable
+   seat.
 6. Publishing copies the Venue's Seat Map into an immutable Event Seat Map.
 7. After publishing, the Venue and the Event Seat Map cannot be changed by any means.
 8. After publishing, title, description and images remain editable.
@@ -27,5 +28,13 @@ States: `Draft → Published → SalesClosed → Completed`, with `Cancelled` re
 13. Every Event has a public page reachable by a shareable link, whatever its listed status.
 14. An Event may be listed or unlisted, defaulting to listed. See
     [009](009-event-discovery.md) for the listing itself.
-15. Publishing, price changes, start-time changes and listing changes are written to the
-    audit log.
+15. Publishing, price changes, start-time changes, admission-window changes and listing
+    changes are written to the audit log.
+16. An Event has an **admission window**: doors open at `doorsOpenAt` and admission closes at
+    `endsAt`, with `doorsOpenAt` no later than the start time and `endsAt` after it. Both are
+    set before publishing, and both remain editable afterwards like the start time.
+
+    They exist because [007](007-admission-scanning.md) criterion 4 has to distinguish "not
+    open yet" from "this event is over", and a start time alone cannot answer either question:
+    people arrive before an event starts and leave after it does. Without a window those two
+    outcomes are opinions rather than answers.
