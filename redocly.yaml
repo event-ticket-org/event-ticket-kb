@@ -1,0 +1,8 @@
+extends:
+  - recommended
+rules:
+  operation-summary: error
+  operation-operationId: off
+  security-defined: error
+  no-unused-components: error
+  tag-description: off

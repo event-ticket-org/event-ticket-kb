@@ -1,0 +1,20 @@
+name: Contract
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  lint:
+    name: Lint OpenAPI contract
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      # ADR-0003: this repository's contract is normative and hand-written. A normative
+      # contract nobody machine-checks is a document that lies slowly.
+      - name: Lint
+        run: npx --yes @redocly/cli@latest lint contracts/openapi.yaml
