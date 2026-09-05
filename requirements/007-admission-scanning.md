@@ -16,7 +16,9 @@ with a queue waiting.
 3. A valid, unredeemed Ticket for this Event is redeemed and the result shows admitted, with
    the seat label large enough to direct the person.
 4. Every other outcome shows a distinct, human-readable reason: already redeemed, wrong
-   event, ticket cancelled or refunded, event not yet open, event ended, unknown code.
+   event, ticket cancelled or refunded, event not yet open, event ended, unknown code. "Not
+   yet open" and "ended" are judged against the Event's admission window
+   ([003](003-event-lifecycle.md) criterion 16), never against its start time.
 5. Already redeemed shows **when** and **at which device** it was first redeemed, so staff can
    tell "you already went in" from "someone else used your ticket".
 6. Every scan is recorded whatever the outcome, with the scanning User, device and instant.

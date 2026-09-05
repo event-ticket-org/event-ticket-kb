@@ -102,6 +102,13 @@ _Avoid_: Reversal, Cancellation (means something else here), Chargeback
 
 ### Admission
 
+**Admission Window**:
+The period during which a Ticket for an Event may be redeemed: from `doorsOpenAt` until
+`endsAt`. Distinct from when the Event starts, because people arrive before that and leave
+after it. A Scan outside the window is refused with a reason that says which side of it the
+person is on.
+_Avoid_: Door time, Gate hours, Session window
+
 **Ticket**:
 The right of one person to be admitted to one Event, usually at a specific Seat. Exists
 independently of any QR code that represents it, so it can be reissued, transferred or

@@ -46,6 +46,11 @@ erDiagram
 and is editable forever; the second is the frozen copy taken at publish. See
 [ADR-0001](../docs/adr/0001-event-seat-map-is-a-snapshot.md).
 
+**An Event carries an admission window, not only a start time.** `doorsOpenAt` and `endsAt`
+bracket when a Ticket may be redeemed. A start time alone cannot decide whether a door is open:
+people arrive before an event begins and leave after it ends, and the refusals in
+[007](../requirements/007-admission-scanning.md) have nothing to measure against without it.
+
 **A Seat carries both a label and coordinates.** The label (`H-14`) is what is printed on a
 Ticket and shouted across a room. The coordinates are what let a buyer recognise where they
 will sit. Neither substitutes for the other.
