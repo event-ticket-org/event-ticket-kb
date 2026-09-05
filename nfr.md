@@ -29,8 +29,14 @@ A Ticket Code is the only thing standing between a stranger and free entry, beca
 verification is online and a valid code is sufficient.
 
 - Cryptographically random, minimum 128 bits of entropy.
-- Never derived from, nor ordered by, any database identifier.
+- Unpredictable and unorderable. No sequence, no counter, no timestamp, and nothing an
+  attacker holding one code can use to reach another.
+- **A leaked database is not a set of working tickets.** What is stored must not be
+  sufficient to walk through a door: a code is reconstructed for display from stored data
+  plus a key held outside the schema, so reading the table is not enough to forge one.
 - Scan attempts are rate-limited per device.
+- A Ticket Code is never written to a log. It arrives in the body of a scan request, which
+  makes the request log the easiest place to leak every code presented at a door.
 
 ## Time
 

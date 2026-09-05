@@ -81,9 +81,11 @@ These must hold at all times. Where the database can enforce one, it should.
 ### Seats and holds
 
 4. A Seat Hold and a Ticket may not exist for the same Event Seat at the same time.
-5. At most one active Seat Hold may exist per Event Seat. This is a uniqueness constraint in
-   the database, not a check in application code — at 500 concurrent buyers the race is the
-   normal case, not the exception.
+5. At most one active Seat Hold may exist per Event Seat, and the database is what makes
+   that true — not a check in application code. At 500 concurrent buyers the race is the
+   normal case rather than the exception, and a read followed by a write loses it. Whether
+   the guarantee is a constraint, a row lock or a structure in which a second hold cannot be
+   represented is an implementation decision; that it is never application logic is not.
 6. A Seat Hold may only be created for a User whose email is verified. Verification never
    happens inside a checkout, because the hold's clock would race the email round-trip.
 7. A Seat Hold expires automatically. Expiry releases the Event Seat with no trace on the
