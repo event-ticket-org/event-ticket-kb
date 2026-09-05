@@ -24,6 +24,8 @@ States: `Draft → Published → SalesClosed → Completed`, with `Cancelled` re
     and active Seat Holds keep the price they were created with.
 11. Sellable capacity may be increased but never reduced below the number of Tickets sold.
 12. `SalesClosed` stops new Orders and leaves existing Tickets valid and scannable.
-13. Every Event has a public page reachable by a shareable link. There is no cross-
-    organization marketplace, search or browse.
-14. Publishing, price changes and start-time changes are written to the audit log.
+13. Every Event has a public page reachable by a shareable link, whatever its listed status.
+14. An Event may be listed or unlisted, defaulting to listed. See
+    [009](009-event-discovery.md) for the listing itself.
+15. Publishing, price changes, start-time changes and listing changes are written to the
+    audit log.

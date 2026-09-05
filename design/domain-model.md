@@ -53,6 +53,9 @@ will sit. Neither substitutes for the other.
 **A Pricing Tier's name is assigned on the Venue's Seat Map; its price is set on the Event.**
 The front rows are the front rows every night, but what they cost is a decision per show.
 
+**A Venue's city is a field in its own right**, not a line inside a free-text address, because
+the public listing filters on it.
+
 **`MAP_ELEMENT` is non-sellable** — a stage, an entrance, an aisle, a bar. It exists so a
 buyer can orient themselves. It is never ticketed.
 

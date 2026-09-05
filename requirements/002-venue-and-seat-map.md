@@ -9,7 +9,9 @@ its own right.
 
 ## Acceptance criteria
 
-1. A Manager may create a Venue with a name, address and timezone.
+1. A Manager may create a Venue with a name, a street address, a **city** as a distinct
+   field, and a timezone. City is separate from the address because the listing in
+   [009](009-event-discovery.md) filters on it, and a free-text address cannot be filtered.
 2. A Venue has exactly one Seat Map, created empty.
 3. A Manager may add seats by generating a block — a section name, a number of rows and a
    number of seats per row — which places and labels them automatically.
