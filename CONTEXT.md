@@ -111,14 +111,13 @@ _Avoid_: Door time, Gate hours, Session window
 
 **Ticket**:
 The right of one person to be admitted to one Event, usually at a specific Seat. Exists
-independently of any QR code that represents it, so it can be reissued, transferred or
-revoked without ceasing to be the same Ticket.
+independently of the QR code that represents it, so it can be voided without ceasing to be
+the same Ticket.
 _Avoid_: QR, Pass, Entry, Admission
 
 **Ticket Code**:
 The credential printed as a QR code, which identifies a Ticket and carries no other
-information. Several codes may be issued for one Ticket over its life; only the current
-one is accepted.
+information. One code per Ticket. Replacing a code is not in v1 - see 006.
 _Avoid_: QR, Barcode, Ticket ID, Token
 
 **Scan**:
