@@ -23,3 +23,7 @@ means an Event cannot presently be cancelled: the status exists and no code path
    partially fail and someone must see which Orders did.
 8. Every ticket holder is notified by email when an Event is cancelled.
 9. Refunds and cancellations are written to the audit log with actor and instant.
+10. An Owner or Manager can see an Event's Orders and narrow them to the ones needing a
+    refund. `refund_required` is set by the system, and a flag nobody can find is the same as
+    no flag: criterion 1 puts refunding in a person's hands, so that person has to be able to
+    reach the Order.
