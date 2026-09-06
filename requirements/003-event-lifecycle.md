@@ -18,7 +18,7 @@ States: `Draft → Published → SalesClosed → Completed`, with `Cancelled` re
    seat.
 6. Publishing copies the Venue's Seat Map into an immutable Event Seat Map.
 7. After publishing, the Venue and the Event Seat Map cannot be changed by any means.
-8. After publishing, title, description and images remain editable.
+8. After publishing, title, description and the cover image remain editable.
 9. Changing the start time after publishing is permitted and notifies every ticket holder by
    email. The confirmation states how many people will be notified before it happens.
 10. Changing a tier's price after publishing applies only to later sales. Existing Tickets
@@ -38,3 +38,16 @@ States: `Draft → Published → SalesClosed → Completed`, with `Cancelled` re
     open yet" from "this event is over", and a start time alone cannot answer either question:
     people arrive before an event starts and leave after it does. Without a window those two
     outcomes are opinions rather than answers.
+17. An Event may have one **cover image**. It is uploaded to the system's own storage rather
+    than linked from elsewhere, so the picture cannot stop existing because somebody else's
+    server changed. See [ADR-0006](../docs/adr/0006-cover-images-are-uploaded-to-object-storage.md).
+18. Only images are accepted, and only up to a published size. What a client says it is
+    sending is not what decides this: the file itself is examined after it arrives, and one
+    that is not an image is discarded rather than served.
+19. A cover may be replaced or removed at any point the Event is still editable. Replacing
+    one deletes the image it replaced.
+20. A cover carries alt text written by the organizer, describing what the picture shows. It
+    is optional, and an undescribed cover is marked decorative rather than described with the
+    Event's own title — which is beside it already, and would be read out twice.
+21. An Event without a cover is an ordinary Event. Nothing anywhere shows a placeholder in
+    its place.
