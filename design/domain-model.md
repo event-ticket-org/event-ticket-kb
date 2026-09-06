@@ -136,6 +136,11 @@ These must hold at all times. Where the database can enforce one, it should.
     ([ADR-0002](../docs/adr/0002-payment-session-abstraction.md)).
 20. Tickets are issued only after an Order's payment is confirmed.
 21. A redeemed Ticket can never be refunded.
+
+    A Refund's `Refunded` is the one state in this model that can be taken back. Providers
+    settle optimistically and the issuer answers later, so a refund may report success and
+    then fail - see [008](../requirements/008-refunds-and-cancellation.md) criterion 11.
+    Nothing else here moves backwards, which is exactly why it is written down.
 22. Cancelling an Event voids every Ticket and refunds every paid Order, tracked per Order
     because it will partially fail.
 
