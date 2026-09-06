@@ -731,7 +731,10 @@ paths:
             application/json:
               schema: { $ref: '#/components/schemas/Refund' }
         '409':
-          description: Order is not paid, already refunded, or has a redeemed Ticket
+          description: |
+            `ORDER_NOT_REFUNDABLE`: the Order is not paid, has already been refunded, or one
+            of its Tickets has been redeemed. The three are one refusal because they end in
+            the same place - there is nothing here to give back - and the message says which.
           content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
 
   /events/{eventId}/cancel:
@@ -755,6 +758,12 @@ paths:
           content:
             application/json:
               schema: { $ref: '#/components/schemas/EventCancellation' }
+        '409':
+          description: |
+            `EVENT_NOT_CANCELLABLE`: the Event was never published, or is already cancelled.
+            A Draft has sold nothing and admits nobody, so there is nothing for a cancellation
+            to undo - deleting it is the operation that was wanted.
+          content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } }
     get:
       tags: [Refunds]
       summary: How a cancellation is going, per Order
@@ -914,6 +923,8 @@ components:
         - PUBLISH_PRECONDITION_FAILED
         - CAPACITY_BELOW_SOLD
         - ORDER_ALREADY_PAID
+        - ORDER_NOT_REFUNDABLE
+        - EVENT_NOT_CANCELLABLE
         - VENUE_IN_USE
         - DUPLICATE_SEAT_LABEL
         - RATE_LIMITED
