@@ -51,6 +51,12 @@ bracket when a Ticket may be redeemed. A start time alone cannot decide whether 
 people arrive before an event begins and leave after it ends, and the refusals in
 [007](../requirements/007-admission-scanning.md) have nothing to measure against without it.
 
+**An Event's cover image is not part of what publishing freezes.** The Seat Map is copied and
+fixed at publish ([ADR-0001](../docs/adr/0001-event-seat-map-is-a-snapshot.md)) because a
+sold Ticket depends on it; a picture is not something anybody bought. So a cover stays
+editable for as long as the Event is, and changing it changes what buyers see - which is the
+useful behaviour, since the reason to change a poster is usually that the old one was wrong.
+
 **A Seat carries both a label and coordinates.** The label (`H-14`) is what is printed on a
 Ticket and shouted across a room. The coordinates are what let a buyer recognise where they
 will sit. Neither substitutes for the other.

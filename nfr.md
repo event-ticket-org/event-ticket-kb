@@ -38,6 +38,26 @@ verification is online and a valid code is sufficient.
 - A Ticket Code is never written to a log. It arrives in the body of a scan request, which
   makes the request log the easiest place to leak every code presented at a door.
 
+## Cover images
+
+One image per Event, uploaded to object storage the system owns (ADR-0006).
+
+| Property | Target |
+|---|---|
+| Maximum upload | 5 MB |
+| Accepted types | JPEG, PNG, WebP, AVIF |
+| Upload authorisation valid for | 10 minutes |
+| Unconfirmed uploads expire after | 24 hours |
+
+Five megabytes is generous for a poster and small enough that no resizing pipeline is
+warranted — which is the point of naming it. Images are served as uploaded; there are no
+derived sizes, no CDN and no transformation, for the same reason the scale targets above
+warrant none.
+
+The accepted types are decided by the file's own leading bytes, not by what a client
+declared. A declared content type is a claim made by whoever is uploading, and the whole
+reason to check is that they might be wrong or lying.
+
 ## Time
 
 All instants are stored in UTC. All times shown to a human are rendered in the **Venue's**
