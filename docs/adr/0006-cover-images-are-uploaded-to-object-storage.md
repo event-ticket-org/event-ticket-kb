@@ -47,3 +47,17 @@ Removing a cover is now its own verb, `DELETE /events/{eventId}/cover`. That is 
 than the one we were reaching for: `EventPatch` has no way to say "clear this field", and
 inventing a null convention for one field would have been inventing it for every optional
 field in the contract.
+
+Owning the file means owning its size. Because the picture is ours and not a link, the moment
+it is confirmed is a moment we hold the bytes and may render smaller copies of them
+(requirements/003 criterion 22) — which a linked image could never have offered. That is the
+upside of this decision arriving late: the listing draws a 140px band, and without derived
+sizes it downloads whatever a designer exported.
+
+**Not every format can be resized, and the ones that cannot are served as they arrived.** The
+JVM reads JPEG and PNG; WebP needs a library and AVIF has no decoder worth trusting. Refusing
+AVIF would be narrowing the contract to fit an implementation detail, and failing the upload
+would turn an optimisation into an outage. So a cover that cannot be decoded offers no smaller
+sizes and is served whole — the client falls back to the one URL, and a visitor pays in
+bandwidth rather than in a missing picture. It is worth knowing that AVIF is the most efficient
+of the four formats, so the file we cannot shrink is the one least likely to need it.

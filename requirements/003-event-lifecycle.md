@@ -51,3 +51,13 @@ States: `Draft → Published → SalesClosed → Completed`, with `Cancelled` re
     Event's own title — which is beside it already, and would be read out twice.
 21. An Event without a cover is an ordinary Event. Nothing anywhere shows a placeholder in
     its place.
+22. A cover is offered in several sizes, and a client is told which exist so it can fetch the
+    one it will actually draw. A listing drawing a thumbnail must not download a poster: the
+    file an organizer uploads is sized for the machine they uploaded it from, and the buyer
+    this product is built for is on a phone paying for the bytes.
+
+    Only sizes smaller than what was uploaded are produced — enlarging a small image invents
+    detail and costs bandwidth to do it — so an Event may offer one size or none, and the
+    original is always served when nothing smaller exists. A format the system cannot decode
+    is served exactly as uploaded rather than refused; the sizes are an optimisation, and one
+    that fails should cost a visitor bandwidth rather than a picture.
