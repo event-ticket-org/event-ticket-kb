@@ -16,7 +16,13 @@ its own right.
 3. A Manager may add seats by generating a block — a section name, a number of rows and a
    number of seats per row — which places and labels them automatically.
 4. A Manager may add, move and remove individual seats on the grid after generating.
-5. Every seat carries a human-readable label unique within the Seat Map, and a position.
+5. Every seat carries a human-readable label unique within the Seat Map, and a position
+   measured in seat pitches — one unit is roughly one seat, so neighbours in a row are 1 apart
+   and an aisle is the extra unit between them. The origin and the units are otherwise
+   arbitrary, because a Seat Map has no real-world dimensions and is fitted to whatever it is
+   drawn in; the *scale* is not arbitrary, because a seat is drawn at a fixed size in these
+   units and a map spaced twenty units apart is valid, unremarkable to every check we have,
+   and unreadable.
 6. A Manager may relabel a seat; the system refuses a label that duplicates another.
 7. A Manager may place non-sellable elements — stage, entrance, aisle, bar — which render on
    the map and can never be ticketed.
