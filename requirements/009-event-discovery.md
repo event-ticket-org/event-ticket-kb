@@ -18,7 +18,9 @@ merely prudent.
    are marked listed, and have not yet started.
 3. Each entry shows the Event title, the Organization's name, the Venue and city, the start
    time in the Venue's timezone, the cover image, the lowest ticket price as a "from" price,
-   and how many seats are still on sale.
+   and how many seats are still on sale out of how many there were. Both numbers, because
+   "four seats left" means something different in a room of twenty and a room of two thousand,
+   and one number leaves a client to guess which.
 4. A visitor may filter by city, by date range, and by a text query matching the title, and
    results are ordered by start time, soonest first.
 5. There is no ranking, relevance scoring, category taxonomy or personalization. Ordering is
