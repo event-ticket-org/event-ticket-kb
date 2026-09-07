@@ -21,7 +21,9 @@ here.
 5. Attempting to publish while unapproved fails with an explanation of why and what happens
    next, not a generic error.
 6. A platform administrator can approve or reject an Organization; both outcomes notify the
-   Owner by email.
+   Owner by email. A rejection carries a reason, and that reason is readable afterwards by the
+   administrator as well as sent to the Owner — a queue of rejected Organizations that does not
+   say why any of them was rejected cannot be reviewed, only re-read.
 7. An Owner may invite a User to the Organization by email address, assigning one Role:
    Owner, Manager or Gate Staff.
 8. An invited User who has no account is prompted to register; the Membership activates on
@@ -36,3 +38,10 @@ here.
     No request grants or revokes the privilege, because the endpoint it unlocks decides who
     may sell tickets on the platform at all. An address named in the configuration becomes
     an administrator whether it is named before or after that account is created.
+14. Deciding on an Organization shows who is accountable for it: the Owners, their addresses,
+    and whether those addresses have been verified. Approving decides who may sell tickets to
+    the public on a page this platform endorses, and a name and a date is not enough to decide
+    that on.
+15. A decision may be revisited. An Organization rejected in error is approved by approving it,
+    and one approved in error is stopped by rejecting it — there is no separate appeal, and a
+    decision that could only be made once would make a mistaken rejection permanent.
