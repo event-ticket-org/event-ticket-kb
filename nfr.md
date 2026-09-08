@@ -38,6 +38,30 @@ verification is online and a valid code is sufficient.
 - A Ticket Code is never written to a log. It arrives in the body of a scan request, which
   makes the request log the easiest place to leak every code presented at a door.
 
+## Account recovery
+
+A password reset link is a bearer credential to a whole account, so it is held to the Ticket
+Code's rules and not to a link's: cryptographically random, at least 128 bits of entropy,
+nothing derived from a database identifier, and only its hash stored — a leaked table must not
+be a set of working links.
+
+| Property | Target |
+|---|---|
+| Reset link valid for | 1 hour |
+| Uses per link | 1 |
+| Outstanding links per User | 1; a new request ends the previous |
+| Requests accepted per address | rate-limited |
+
+The lifetime is short where email verification's is a day, and the difference is what the link
+does. A verification link makes a new account usable and the person is usually waiting for it;
+a reset link opens an account that already exists, already holds orders and tickets, and may
+already be the subject of whatever prompted the reset.
+
+Requests are rate-limited per address as well as per caller, because the endpoint is
+unauthenticated and sends mail to an address the caller names. Without a limit it is a way to
+have this system deliver unbounded mail to a stranger, and the reputational cost of that lands
+on the sending domain.
+
 ## Cover images
 
 One image per Event, uploaded to object storage the system owns (ADR-0006).
