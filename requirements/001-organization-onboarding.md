@@ -45,3 +45,10 @@ here.
 15. A decision may be revisited. An Organization rejected in error is approved by approving it,
     and one approved in error is stopped by rejecting it — there is no separate appeal, and a
     decision that could only be made once would make a mistaken rejection permanent.
+16. A Member can see where their Organization stands — approved, waiting, or rejected and why —
+    without attempting something that will be refused. Criterion 5 makes the refusal at publish
+    time explain itself, and that is necessary but late: by then somebody has built a Venue, a
+    Seat Map, an Event and its prices believing they were about to sell tickets. Waiting is a
+    legitimate state that can last days, and a person who cannot see they are in it reads it as
+    the product being broken. The rejection reason of criterion 6 is shown here as well as
+    emailed, because the email is the copy that gets lost.
