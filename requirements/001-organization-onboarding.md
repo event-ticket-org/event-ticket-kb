@@ -5,6 +5,12 @@ freely, but may not put tickets on sale until a platform administrator has appro
 is the fraud control: it costs one flag and one screen now, and prevents the platform being
 used to sell tickets to events that do not exist.
 
+This document also owns the other end of an account's life: getting back into one. Criteria
+17 to 21 are here rather than in a document of their own because recovery is not a separate
+feature, it is what registration and verification look like when the person has lost the
+first two — and the mistake to avoid is a second mechanism sitting beside them with its own
+rules.
+
 That makes approval the most privileged action in the system, so criterion 13 says where the
 privilege comes from. Left unsaid, the obvious implementation is an endpoint, and an endpoint
 that can make its caller an administrator is worth more to an attacker than any other request
@@ -52,3 +58,23 @@ here.
     legitimate state that can last days, and a person who cannot see they are in it reads it as
     the product being broken. The rejection reason of criterion 6 is shown here as well as
     emailed, because the email is the copy that gets lost.
+17. A User who has forgotten their password may ask for a reset by email address, and the
+    answer is the same whether or not that address has an account. The form is public and
+    unauthenticated, so an answer that differed would make it a tool for finding out who has
+    an account here — and a list of this platform's buyers is worth stealing on its own.
+18. Following a reset link sets the new password and marks the address verified. Reading the
+    mailbox is the same proof registration asks for, and this closes the one door with no way
+    through it: a User whose verification email was lost or expired currently has no route
+    back into their own account at all. Recovering the password recovers the account, rather
+    than a second mechanism existing to recover the verification.
+19. Setting a new password ends every other session immediately. The common reason to reset
+    is that somebody else has the old password, and a reset that leaves their session alive
+    fixes nothing. The person resetting stays signed in — they have just proved who they are —
+    and is not asked to type the new password again.
+20. A completed reset is reported to the address itself. That notice is the only thing that
+    tells a real owner a reset happened when it was not them, and it is worth sending even
+    though the account is by then already changed: it is what makes the next step possible.
+21. A reset link expires, may be used once, and asking for a new one ends any still
+    outstanding. A link sitting in a mailbox is a live credential to the whole account, so the
+    window in which a forwarded or a shoulder-read message is still usable is deliberately
+    short.
