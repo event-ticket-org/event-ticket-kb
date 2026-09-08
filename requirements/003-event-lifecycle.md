@@ -21,6 +21,12 @@ States: `Draft → Published → SalesClosed → Completed`, with `Cancelled` re
 8. After publishing, title, description and the cover image remain editable.
 9. Changing the start time after publishing is permitted and notifies every ticket holder by
    email. The confirmation states how many people will be notified before it happens.
+
+   The new time is still in the future. Criterion 5 requires that to publish, and a published
+   Event is not free of the rule afterwards: moving one backwards emails everybody who holds a
+   ticket a date that has already been and gone, and leaves a door that will not open because
+   its admission window closed before the message arrived. There is no honest reason to do it -
+   an Event that has already happened is `Completed`, which is a status rather than an edit.
 10. Changing a tier's price after publishing applies only to later sales. Existing Tickets
     and active Seat Holds keep the price they were created with.
 11. Sellable capacity may be increased but never reduced below the number of Tickets sold.
