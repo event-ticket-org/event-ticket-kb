@@ -58,6 +58,25 @@ The accepted types are decided by the file's own leading bytes, not by what a cl
 declared. A declared content type is a claim made by whoever is uploading, and the whole
 reason to check is that they might be wrong or lying.
 
+## What the server checks
+
+Every constraint this contract states is enforced by the server, whatever a client does. A
+client checks the same things because a person should be told about a mistake while they are
+still looking at the field, not after a round trip - but that is a courtesy, and courtesy is
+not a control. The two are not alternatives and the client's is never the one relied upon.
+
+This is the same rule the cover images already follow: the accepted types are decided by the
+file's own leading bytes, not by what a client declared. A request is a claim made by whoever
+sent it, and the whole reason to check is that they might be wrong or lying.
+
+Two consequences worth stating, because both have been got wrong here:
+
+- A constraint written in the contract and not enforced by the server is decoration. It is
+  worse than no constraint, because everyone reading the contract believes it holds.
+- A request the server refuses is a **4xx with which field was wrong**. A refusal that arrives
+  as 500 tells the caller the server broke when it understood perfectly, and buries a real
+  defect in the log at the moment the log matters.
+
 ## Time
 
 All instants are stored in UTC. All times shown to a human are rendered in the **Venue's**
