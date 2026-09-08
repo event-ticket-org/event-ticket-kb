@@ -11,6 +11,16 @@ States: `Draft → Published → SalesClosed → Completed`, with `Cancelled` re
 2. While `Draft`, the Event shows the Venue's current Seat Map, and reflects edits to it.
 3. A Manager sets a price for each Pricing Tier name present in the Seat Map. Publishing is
    refused while any tier is unpriced.
+
+   A price is free or it is one somebody can actually be charged. Every payment provider has a
+   floor below which it refuses the transaction, so a ticket priced under it cannot be sold at
+   all: the smallest possible Order is one seat, and the first person who wants exactly one is
+   stopped by the provider after choosing it. The organizer is told when they set the price,
+   which is where the mistake is, rather than the buyer being told at checkout, which is where
+   it is merely discovered. The floor is in [nfr.md](../nfr.md).
+
+   Zero stays a price. Free events are real, and a provider asked for nothing does not refuse -
+   it is only the small non-zero amounts that cannot be charged.
 4. A Manager may mark seats as not for sale for this Event; they appear on the map as
    unavailable.
 5. Publishing requires an `Approved` Organization, a priced tier for every sellable seat, a

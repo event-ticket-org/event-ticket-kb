@@ -93,6 +93,22 @@ integer minor units" advice therefore means the minor unit *is* the dong: `10000
 hundred thousand dong. Payment providers expect amounts in the smallest unit and treat
 zero-decimal currencies differently. Getting this backwards is a factor-of-100 error.
 
+| | |
+|---|---|
+| Smallest chargeable price | **20.000 ₫** |
+| Free | allowed, and distinct from cheap |
+
+A price is free or it is one somebody can actually be charged. Providers refuse amounts below
+a floor of their own — Stripe answers `amount_too_small` with "must convert to at least 50
+cents", which against the dong is roughly 12.500 ₫ and moves with the exchange rate. So the
+number here is not that floor; it is comfortably above it, because a limit that tracks a
+foreign currency will eventually cross a limit that does not, and the failure lands on a buyer
+who has already chosen a seat.
+
+It is configuration rather than a constant. The floor a provider applies is theirs, this
+market's idea of a real ticket price is not ours, and a deployment that changes provider or
+currency should not need a release to change a number.
+
 ## Personal data
 
 The system deliberately holds one identifier per User — an email address — plus a display

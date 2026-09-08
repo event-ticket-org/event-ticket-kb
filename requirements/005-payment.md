@@ -33,3 +33,11 @@ test the abstraction, and is not in v1.
     attempts and at most one success.
 12. Amounts are handled in the currency's smallest unit, and VND's absence of a minor unit is
     respected on every provider boundary.
+13. A provider that answers is not a provider that is down. A refusal it will give again for
+    the same request — an amount below its floor, a currency it will not present, an
+    unconfigured account — is permanent, and telling a buyer to try again in a moment invites
+    them to keep pressing a button that will never work while the organizer hears nothing.
+
+    Only a provider that could not be reached is worth retrying. Anything it actually said is
+    reported as what it is, in words the buyer can act on, and logged with what the provider
+    said so that the organizer's problem is diagnosable rather than merely reported.
