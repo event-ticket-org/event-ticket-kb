@@ -61,3 +61,14 @@ States: `Draft → Published → SalesClosed → Completed`, with `Cancelled` re
     original is always served when nothing smaller exists. A format the system cannot decode
     is served exactly as uploaded rather than refused; the sizes are an optimisation, and one
     that fails should cost a visitor bandwidth rather than a picture.
+23. An Event reports, to the people who run it, how many seats have sold and how much money is
+    currently held for it. Both are read constantly and neither can be worked out from what a
+    client already has: seats sit in different Pricing Tiers, prices change after publishing
+    for later sales only, and a refunded Order stops counting — so any sum a client attempted
+    would be a plausible wrong number, which is worse than none.
+
+    Money held, not money ever taken: a refunded Order has given the money back, and a figure
+    that still counted it would tell an organizer they hold funds they do not.
+
+    Not for everyone in the Organization. [007](007-admission-scanning.md) criterion 13 keeps
+    sales figures and revenue away from Gate Staff, and this is one of the figures it means.
