@@ -51,16 +51,28 @@ be a set of working links.
 | Uses per link | 1 |
 | Outstanding links per User | 1; a new request ends the previous |
 | Requests accepted per address | rate-limited |
+| Reset emails sent per hour, all addresses | capped |
 
 The lifetime is short where email verification's is a day, and the difference is what the link
 does. A verification link makes a new account usable and the person is usually waiting for it;
 a reset link opens an account that already exists, already holds orders and tickets, and may
 already be the subject of whatever prompted the reset.
 
-Requests are rate-limited per address as well as per caller, because the endpoint is
-unauthenticated and sends mail to an address the caller names. Without a limit it is a way to
-have this system deliver unbounded mail to a stranger, and the reputational cost of that lands
-on the sending domain.
+Requests are rate-limited per address, because the endpoint is unauthenticated and sends mail
+to an address the caller names. Without a limit it is a way to have this system deliver
+unbounded mail to a stranger, and the reputational cost of that lands on the sending domain.
+
+The second limit is a cap on reset mail in total rather than per caller, and that is a
+correction of something this document said first. Per caller cannot be enforced where it would
+have to be: the application is reached through a tunnel and a reverse proxy, so every request
+arrives from the proxy's address, and a limit keyed on it is a single global limit that one
+attacker trips to lock every User out of recovery. The alternative is to trust a forwarded
+header, which is to key the limit on a value the attacker writes.
+
+A total cap has neither problem and bounds the thing actually worth bounding — how much mail
+this system can be made to send to people who did not ask for any. It is set high enough that
+reaching it means abuse rather than a busy evening, and per-caller limiting belongs at the edge,
+where the caller's address is known.
 
 ## Cover images
 
