@@ -16,6 +16,10 @@ erDiagram
     ORGANIZATION ||--o{ EVENT : hosts
     ORGANIZATION ||--o{ AUDIT_ENTRY : records
 
+    CITY ||--o{ VENUE : locates
+    CATEGORY ||--o{ EVENT : classifies
+    EVENT ||--o{ FEATURED_SLOT : "curated into"
+
     VENUE ||--|| SEAT_MAP : has
     SEAT_MAP ||--o{ SEAT_MAP_SEAT : contains
     SEAT_MAP ||--o{ MAP_ELEMENT : contains
@@ -64,8 +68,28 @@ will sit. Neither substitutes for the other.
 **A Pricing Tier's name is assigned on the Venue's Seat Map; its price is set on the Event.**
 The front rows are the front rows every night, but what they cost is a decision per show.
 
-**A Venue's city is a field in its own right**, not a line inside a free-text address, because
-the public listing filters on it.
+**A Category is platform vocabulary, not Organization data.** Every Event has exactly one, and
+an Organization chooses from the set rather than adding to it
+([009](../requirements/009-event-discovery.md) criterion 12). It is the one attribute of an
+Event whose permitted values belong to nobody who owns the Event - which is what makes it
+comparable across Organizations, and the whole reason the listing can group by it.
+
+The set carries a catch-all, and an Event sitting in it forever is a correct outcome rather
+than an unfinished one. Without it the taxonomy would have to be either complete or optional,
+and it can be neither: complete is a claim about events nobody has thought of yet, and optional
+puts every Event that skipped the question into a bucket the listing cannot show.
+
+**A Featured Slot is an editorial act with a clock.** It is not a flag on the Event, because a
+flag cannot say *which comes first* or *until when*, and both were wanted the moment curation
+existed. It belongs to the platform rather than to the Organization whose Event it points at:
+an Organization cannot place itself in one, which is what separates curation from advertising
+and is why criterion 14 records it like any other administrative decision.
+
+**A Venue's city is a reference to a City the platform defines**, not a line inside a
+free-text address and no longer free text of its own. It began as a field because the public
+listing filtered on it; it became a reference when the listing started *grouping* and *counting*
+by it ([009](../requirements/009-event-discovery.md) criterion 13). Filtering tolerates two
+spellings of Hà Nội and returns slightly wrong results; counting reports two cities.
 
 **`MAP_ELEMENT` is non-sellable** — a stage, an entrance, an aisle, a bar. It exists so a
 buyer can orient themselves. It is never ticketed.
@@ -148,3 +172,14 @@ These must hold at all times. Where the database can enforce one, it should.
 
 23. Publishing, price changes, refunds, event cancellation and Membership changes are
     recorded with actor and instant, append-only.
+
+### Discovery
+
+24. Every Event has exactly one Category, and every Venue exactly one City. Neither is optional
+    and neither is free text.
+25. The public listing's ordering never depends on who is asking. The same request returns the
+    same page in the same order for everybody, signed in or not
+    ([009](../requirements/009-event-discovery.md) criterion 5).
+26. Nothing the public listing is served from is a system of record. It is derived from the
+    Events and rebuildable at any time, and its loss degrades discovery without losing an Event
+    ([009](../requirements/009-event-discovery.md) criterion 20).
